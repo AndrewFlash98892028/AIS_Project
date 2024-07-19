@@ -1,0 +1,32 @@
+﻿<Window x:Class="AIS.Employee.NewTimeOffRequestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Запрос на отпуск" Height="350" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Запрос на отпуск" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="1" Text="Начало:" Margin="0,5,0,0"/>
+        <DatePicker Grid.Row="2" x:Name="dpStartDate" Margin="0,5,0,0"/>
+
+        <TextBlock Grid.Row="3" Text="Конец:" Margin="0,5,0,0"/>
+        <DatePicker Grid.Row="4" x:Name="dpEndDate" Margin="0,5,0,0"/>
+
+        <TextBlock Grid.Row="5" Text="Причина:" Margin="0,5,0,0"/>
+        <TextBox Grid.Row="6" x:Name="txtReason" Height="80" Margin="0,5,0,0" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Отправить" Click="btnSubmit_Click" Margin="5" Width="75"/>
+            <Button Content="Отмена" Click="btnCancel_Click" Margin="5" Width="75"/>
+        </StackPanel>
+    </Grid>
+</Window>

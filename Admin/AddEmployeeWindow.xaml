@@ -1,0 +1,35 @@
+﻿<Window x:Class="AIS.Admin.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить сотрудника" Height="350" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+       
+        <TextBox x:Name="txtFirstName" Grid.Row="0" Grid.Column="1" Margin="5" ToolTip="Введите имя и фамилию"/>
+
+       
+        <TextBox x:Name="txtLastName" Grid.Row="1" Grid.Column="1" Margin="5" ToolTip="Введите отчество"/>
+
+       
+        <ComboBox x:Name="cmbDepartment" Grid.Row="2" Grid.Column="1" Margin="5" ToolTip="Выберете отдел"/>
+
+       
+        <ComboBox x:Name="cmbJobTitle" Grid.Row="3" Grid.Column="1" Margin="5" ToolTip="Выберете должность"/>
+
+       
+        <DatePicker x:Name="dpHireDate" Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="btnAdd" Content="Добавить" Click="btnAdd_Click" Width="80" Margin="5"/>
+            <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Width="80" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

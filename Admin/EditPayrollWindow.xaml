@@ -1,0 +1,35 @@
+﻿<Window x:Class="AIS.Admin.EditPayrollWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактор зарплаты" Height="400" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Редактор зарплаты" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="1" Text="Сотрудник:" Margin="0,5,0,0"/>
+        <ComboBox Grid.Row="2" x:Name="cmbEmployee" 
+                  DisplayMemberPath="FullName" SelectedValuePath="EmployeeID" Margin="0,5,0,0" IsEnabled="False"/>
+
+
+        <TextBlock Grid.Row="3" Text="Начало расчетного периода:" Margin="0,5,0,0"/>
+        <DatePicker Grid.Row="4" x:Name="dpPayPeriodStart" Margin="0,5,0,0"/>
+
+        <TextBlock Grid.Row="5" Text="Конец расчетного периода:" Margin="0,5,0,0"/>
+        <DatePicker Grid.Row="6" x:Name="dpPayPeriodEnd" Margin="0,5,0,0"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,168,0,0">
+            <Button Content="Сохранить" Click="btnSave_Click" Margin="5" Width="75" Height="30"/>
+            <Button Content="Отмени" Click="btnCancel_Click" Margin="5" Width="75" Height="32"/>
+        </StackPanel>
+    </Grid>
+</Window>

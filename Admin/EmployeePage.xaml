@@ -1,0 +1,48 @@
+﻿<Page x:Class="AIS.Admin.EmployeePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AIS.Admin"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Сотрудники">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnAddEmployee" Content="Добавить" Click="btnAddEmployee_Click" Margin="5"/>
+            <Button x:Name="btnEditEmployee" Content="Редактировать" Click="btnEditEmployee_Click" Margin="5" IsEnabled="True"/>
+            <Button x:Name="btnDeactivateEmployee" Content="Заблокировать" Click="btnDeactivateEmployee_Click" Margin="5" IsEnabled="True"/>
+            <Button x:Name="btnActivateEmployee" Content="Разблокировать"  Margin="5" IsEnabled="True" Click="btnActivateEmployee_Click"/>
+        </StackPanel>
+        <DataGrid x:Name="dgEmployees" Grid.Row="1" ItemsSource="{Binding Employees}" AutoGenerateColumns="False" SelectionChanged="dgEmployees_SelectionChanged" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Имя Фамилия" Binding="{Binding FirstName}"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding LastName}"/>
+                <DataGridComboBoxColumn Header="Отдел" 
+                                SelectedValueBinding="{Binding DepartmentID}"
+                                DisplayMemberPath="DepartmentName"
+                                SelectedValuePath="DepartmentID"/>
+                <DataGridComboBoxColumn Header="Должность" 
+                                SelectedValueBinding="{Binding JobTitleID}"
+                                DisplayMemberPath="JobTitle"
+                                SelectedValuePath="JobTitleID"/>
+                <DataGridTextColumn Header="Дата приема на работу" Binding="{Binding HireDate, StringFormat='d'}"/>
+                <DataGridCheckBoxColumn Header="Статус" Binding="{Binding IsActive}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Поиск: "/>
+            <TextBox x:Name="txtSearch" Width="200" TextChanged="txtSearch_TextChanged"/>
+        </StackPanel>
+    </Grid>
+</Page>

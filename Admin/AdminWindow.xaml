@@ -1,0 +1,177 @@
+﻿<Window x:Class="AIS.Admin.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AIS.Admin"
+        Title="Администратор"
+        Width="1200" 
+        Height="800" 
+        WindowState="Maximized" 
+        WindowStyle="None" 
+        Background="#FDF6F0"
+        ResizeMode="CanResizeWithGrip">
+
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="{x:Type Control}">
+                <Setter Property="Background" Value="#FDF6F0" />
+                <Setter Property="Foreground" Value="#403020" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+            </Style>
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="#C89664" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Padding" Value="15,8" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style TargetType="{x:Type Frame}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+                <Setter Property="Margin" Value="10" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="#403020" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style TargetType="{x:Type ListBox}">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+            </Style>
+
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="10,6" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Background="#FDF6F0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#C89664" Margin="0">
+            <StackPanel  Grid.Row="0" Orientation="Horizontal" Margin="10" 
+             VerticalAlignment="Center" Background="White"
+            >
+                <TextBlock Text="Добро пожаловать, " Margin="5" FontSize="18"/>
+                <TextBlock x:Name="txtEmployeeName" Text="" FontWeight="Bold" Margin="5" FontSize="18"/>
+                <TextBlock Text="На работе: " Margin="15,5,0,5" FontSize="18"/>
+                <TextBlock x:Name="txtClockedInStatus" Text="Нет" FontWeight="Bold" Margin="5" FontSize="18"/>
+                <TextBlock Text="Время работы: " Margin="15,5,0,5" FontSize="18"/>
+                <TextBlock x:Name="txtTimeElapsed" Text="00:00:00" FontWeight="Bold" Margin="5" FontSize="18"/>
+            </StackPanel>
+            <Button Content="Выход" 
+                    Background="#D9A47C" 
+                    Foreground="White"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="10" 
+                    Click="btnLogout_Click" />
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#FDF6F0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="10">
+                <Button Content="Управление сотрудниками" Click="btnEmployeeManagement_Click" Margin="5" Height="50"/>
+                <Button Content="Управление отделами" Click="btnDepartmentManagement_Click" Margin="5" Height="50"/>
+                <Button Content="Записи о рабочем времени" Click="btnTimeEntries_Click" Margin="5" Height="50"/>
+                <Button Content="Отпуск" Click="btnTimeOff_Click" Margin="5" Height="50"/>
+                <Button Content="Графики" Click="btnSchedules_Click" Margin="5" Height="50"/>
+                <Button Content="Зарплата" Click="btnPayroll_Click" Margin="5" Height="50"/>
+                <Button Content="Отчеты" Click="btnReports_Click" Margin="5" Height="50"/>
+                <Button Content="Настройки системы" Click="btnSystemSettings_Click" Margin="5" Height="50"/>
+                <Button Content="Управление пользователями" Click="btnUserManagement_Click" Margin="5" Height="50"/>
+                <Button x:Name="btnRefreshDashboard" Content="Обнв" Visibility="Hidden" 
+        Click="btnRefreshDashboard_Click"
+        Margin="10,0,0,0" />
+                <Border BorderBrush="#E0D6C8" BorderThickness="1" Margin="5" CornerRadius="4" Background="White">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Панель управления" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+                        <TextBlock Text="Сотрудников работает:" />
+                        <TextBlock x:Name="lblClockedInEmployees" Margin="5,0,0,0"/>
+                        <TextBlock Text="Всего часов отработанно:" Margin="0,10,0,0"/>
+                        <TextBlock x:Name="lblTotalHoursWorked" Margin="5,0,0,0"/>
+                        <TextBlock Text="Часов переработанно:" Margin="0,10,0,0"/>
+                        <TextBlock x:Name="lblOvertimeHours" Margin="5,0,0,0"/>
+                        <TextBlock Text="Запросы:" Margin="0,10,0,0"/>
+                        <TextBlock x:Name="lblPendingTimeOffRequests" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <Grid Grid.Column="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" Background="#FDF6F0">
+                    <TextBlock Text="Выбрать хранимую процедуру:" Margin="5" />
+                    <ComboBox x:Name="cmbStoredProcedures" Width="250" Margin="5"
+                              SelectionChanged="cmbStoredProcedures_SelectionChanged" />
+                    <Button x:Name="btnExecute" Content="Выполнить" Click="btnExecute_Click" Margin="5" />
+                    <StackPanel Grid.Row="1" x:Name="ParameterInputs" Margin="5" Width="190">
+
+                    </StackPanel>
+                    
+                </StackPanel>
+
+                <Frame x:Name="frmAdminContent" Grid.Row="1" Margin="0"  
+                       NavigationUIVisibility="Hidden" Navigated="frmAdminContent_Navigated"  Background="#FDF6F0" />
+
+                <TextBox x:Name="txtOutput" Grid.Row="2" Height="80"
+                         TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0"  />
+              
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

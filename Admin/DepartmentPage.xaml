@@ -1,0 +1,30 @@
+﻿<Page x:Class="AIS.Admin.DepartmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Отделы">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnAddDepartment" Content="Добавить отдел" Click="btnAddDepartment_Click" Margin="5"/>
+            <Button x:Name="btnEditDepartment" Content="Редактировать отдел" Click="btnEditDepartment_Click" Margin="5" IsEnabled="False"/>
+            <Button x:Name="btnDeleteDepartment" Content="Удалить отдел" Click="btnDeleteDepartment_Click" Margin="5" IsEnabled="False"/>
+        </StackPanel>
+
+        <DataGrid x:Name="dgDepartments" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="dgDepartments_SelectionChanged" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер отдела" Binding="{Binding DepartmentID}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Имя отдела" Binding="{Binding DepartmentName}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Поиск: "/>
+            <TextBox x:Name="txtSearch" Width="200" TextChanged="txtSearch_TextChanged"/>
+        </StackPanel>
+    </Grid>
+</Page>

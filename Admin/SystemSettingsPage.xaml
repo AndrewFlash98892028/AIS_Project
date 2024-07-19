@@ -1,0 +1,97 @@
+﻿<Page x:Class="AIS.Admin.SystemSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Настройки">
+
+    <Grid Margin="10" Background="White">
+        <TabControl>
+            <TabItem Header="Расписание">
+                <StackPanel Margin="10">
+                    <GroupBox Header="Стандартное расписание" Margin="5">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Время начала рабочего дня:" Margin="5" />
+                            <TextBox x:Name="txtDefaultStartTime" Margin="5" Text="09:00" />
+                            <TextBlock Text="Время окончания рабочего дня:" Margin="5" />
+                            <TextBox x:Name="txtDefaultEndTime" Margin="5" Text="18:00" />
+                            <TextBlock Text="Время начала обеденного перерыва:" Margin="5" />
+                            <TextBox x:Name="txtLunchBreakStartTime" Margin="5" Text="12:00" />
+                            <TextBlock Text="Продолжительность обеденного перерыва (в минутах):" Margin="5" />
+                            <TextBox x:Name="txtDefaultLunchBreak" Margin="5" Text="60" />
+                        </StackPanel>
+                    </GroupBox>
+                    <Button x:Name="btnSaveSettings" Content="Сохранить" 
+                Width="125" Height="31"  Click="btnSaveSettings_Click" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Мониторинг активности">
+                <StackPanel Margin="10">
+                    <GroupBox Header="Параметры мониторинга" Margin="5">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Интервал отслеживания (в минутах):" Margin="5" />
+                            <TextBox x:Name="txtTrackingInterval" Margin="5" Text="15" />
+                            <TextBlock Text="Порог простоя (в минутах):" Margin="5" />
+                            <TextBox x:Name="txtIdleThreshold" Margin="5" Text="5" />
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Уведомления">
+                <StackPanel Margin="10">
+                    <GroupBox Header="Принтер для уведомлений" Margin="5">
+                        <ComboBox x:Name="cmbNotificationPrinter" Margin="5" />
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Экспорт данных">
+                <StackPanel Margin="10">
+                    <GroupBox Header="Формат экспорта">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Выберите дату:" Margin="5" />
+                            <Calendar x:Name="reportCalendar" Margin="5" SelectionMode="SingleRange" 
+         DisplayDateChanged="reportCalendar_DisplayDateChanged"/>
+                            <TextBlock Text="Формат:" Margin="5" />
+                            <ComboBox x:Name="cmbExportFormat" Margin="5" SelectedIndex="0">
+                                
+                                <ComboBoxItem Content="Точка восстановления"/>
+                                <ComboBoxItem Content="PDF"/>
+                            </ComboBox>
+                            <TextBlock Text="Резервные копии:" Margin="5" />
+                            <Button x:Name="btnExportData" Content="Создать точку восстановления" 
+                                    Click="btnExportData_Click"/>
+                            <Button x:Name="btRestoreData" Content="Восстановить состояние системы " 
+         Click="btnRestoreData_Click"/>
+                            <GroupBox Header="PDF Отчет" Height="141" Width="453">
+                                <StackPanel Margin="5,0,5,0" Height="87">
+                                    <TextBlock Text="Выберите таблицу:" Margin="3" />
+                                    <ComboBox x:Name="cmbTables" SelectionChanged="cmbTables_SelectionChanged" Margin="3" />
+
+                                    <TextBlock Text="Выберите колонки:" Margin="3" Visibility="Hidden" />
+                                    <ListBox x:Name="lstColumns" SelectionMode="Multiple" Margin="3" SelectionChanged="lstColumns_SelectionChanged" Height="30" Visibility="Hidden" />
+                                </StackPanel>
+                            </GroupBox>
+                            <TextBox x:Name="txtDataDelimiter" Margin="5" Text="," Visibility="Hidden"/>
+                            <Button x:Name="btnGeneratePDFReport" Content="Сгенерировать PDF отчет" Click="btnGeneratePDFReport_Click" Width="212" />
+                            <TextBox x:Name="myTextBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="Текстовое поле" VerticalAlignment="Top" Width="120" Visibility="Hidden" TextChanged="myTextBox_TextChanged" />
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Внешний вид">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Тема:" Margin="5" />
+                    <TextBlock Text="Размер шрифта:" FontSize="12" Margin="5" />
+                    <ComboBox x:Name="cmbFontSize" Margin="5" SelectedIndex="1" 
+                              SelectionChanged="cmbFontSize_SelectionChanged">
+                        <ComboBoxItem Content="Маленький"/>
+                        <ComboBoxItem Content="Средний"/>
+                        <ComboBoxItem Content="Большой"/>
+                    </ComboBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

@@ -1,0 +1,43 @@
+﻿<Page x:Class="AIS.Admin.ReportsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+       
+      Title="Отчеты">
+
+    <Grid Background="White" Height="450" Width="535" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Отчеты" 
+                   HorizontalAlignment="Center" 
+                   FontSize="20" Margin="10" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <ComboBox x:Name="cmbReportType" Width="150" 
+                      SelectionChanged="cmbReportType_SelectionChanged">
+                <ComboBoxItem Content="Часы сотрудников"/>
+                <ComboBoxItem Content="Часы отдела"/>
+            </ComboBox>
+            <DatePicker x:Name="dpStartDate" Margin="10" />
+            <DatePicker x:Name="dpEndDate" Margin="10" />
+            <Button x:Name="btnGenerateReport" Content="Создать отчет" 
+                    Click="btnGenerateReport_Click" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" x:Name="txtChartTitle" FontSize="16" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="10" />
+
+        <lvc:CartesianChart x:Name="chartReport" Grid.Row="3" Margin="10" 
+                            LegendLocation="Bottom">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Всего часов" LabelFormatter="{Binding YFormatter}"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+    </Grid>
+</Page>

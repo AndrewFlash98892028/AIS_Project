@@ -1,0 +1,35 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="AIS.Admin.TimeEntriesPage"
+      Title="Записи о рабочем времени" av:DesignHeight="305.06" av:DesignWidth="463.06">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Рабочее время" FontSize="20" FontWeight="Bold" Margin="10,10,272,10"/>
+
+        <DataGrid Grid.Row="1" x:Name="timeEntriesDataGrid" AutoGenerateColumns="False" 
+                  IsReadOnly="True" Margin="10"  VerticalAlignment="Stretch" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding TimeEntryID}" Width="*" />
+                <DataGridTextColumn Header="ID Сотрудника" Binding="{Binding EmployeeID}" Width="*" />
+                <DataGridTextColumn Header="ФИО Сотрудника" Binding="{Binding EmployeeName}" Width="*" />
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='dd.MM.yyyy'}" Width="*" />
+                <DataGridTextColumn Header="Начало работы" Binding="{Binding ClockInTime, StringFormat='HH:mm'}" Width="*" />
+                <DataGridTextColumn Header="Конец работы" Binding="{Binding ClockOutTime, StringFormat='HH:mm'}" Width="*" />
+                <DataGridTextColumn Header="Отработано часов" Binding="{Binding HoursWorked}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,10,6">
+            <Button x:Name="btnAdd" Content="Добавить" Click="btnAdd_Click" Margin="5"/>
+            <Button x:Name="btnEdit" Content="Редактировать " Click="btnEdit_Click" Margin="5"/>
+            <Button x:Name="btnDelete" Content="Удалить" Click="btnDelete_Click" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Page>

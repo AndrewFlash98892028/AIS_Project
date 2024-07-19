@@ -1,0 +1,26 @@
+﻿<Page x:Class="AIS.Employee.ViewSchedulesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Мои графики">
+
+    <Grid Margin="10" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Мои графики" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <DataGrid Grid.Row="1" x:Name="dgSchedules" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID графика" Binding="{Binding ScheduleID}" />
+                <DataGridTextColumn Header="ID сотрудника" Binding="{Binding EmployeeID}" />
+                <DataGridTextColumn Header="Начало смены" Binding="{Binding ShiftStart, StringFormat=t}" />
+                <DataGridTextColumn Header="Конец смены" Binding="{Binding ShiftEnd, StringFormat=t}" />
+                <DataGridTextColumn Header="День недели" Binding="{Binding DayOfWeek}" />
+                <DataGridTextColumn Header="Тип графика" Binding="{Binding ScheduleType}" />
+                <DataGridTextColumn Header="Сотрудники" Binding="{Binding Employees}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

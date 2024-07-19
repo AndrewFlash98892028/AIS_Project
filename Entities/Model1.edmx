@@ -1,0 +1,1358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище AISCModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="AttendanceStatus" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Action" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Details" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="JobTitleID" Type="int" Nullable="false" />
+          <Property Name="HireDate" Type="date" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ContactInfo" Type="varchar" MaxLength="255" />
+          <Property Name="TerminationDate" Type="date" />
+          <Property Name="HourlyRate" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="JobTitles">
+          <Key>
+            <PropertyRef Name="JobTitleID" />
+          </Key>
+          <Property Name="JobTitleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PasswordHashInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastHashDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="PayrollID" />
+          </Key>
+          <Property Name="PayrollID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="PayPeriodStart" Type="date" Nullable="false" />
+          <Property Name="PayPeriodEnd" Type="date" Nullable="false" />
+          <Property Name="GrossPay" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="NetPay" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Deductions" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Taxes" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DepartmentID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Schedules">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="ShiftStart" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ShiftEnd" Type="time" Precision="7" Nullable="false" />
+          <Property Name="DayOfWeek" Type="int" Nullable="false" />
+          <Property Name="ScheduleType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SettingName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SettingValue" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeEntries">
+          <Key>
+            <PropertyRef Name="TimeEntryID" />
+          </Key>
+          <Property Name="TimeEntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="ClockInTime" Type="datetime" Nullable="false" />
+          <Property Name="ClockOutTime" Type="datetime" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="TaskID" Type="int" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="255" />
+          <Property Name="Overtime" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="TimeOffRequests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="Reason" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApprovedBy" Type="int" />
+          <Property Name="AvailableBalance" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "AISC.dbo.UserPermissions" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="UserPermissions">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PermissionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+        </EntityType>
+        <Association Name="FK_Attendance_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuditLog_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="AuditLog" Type="Self.AuditLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AuditLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_JobTitles">
+          <End Role="JobTitles" Type="Self.JobTitles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTitles">
+              <PropertyRef Name="JobTitleID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="JobTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedules_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Schedules">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeOffRequests_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeOffRequests" Type="Self.TimeOffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TimeOffRequests">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeOffRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="TimeOffRequests" Type="Self.TimeOffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TimeOffRequests">
+              <PropertyRef Name="ApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermissions_Permissions">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="UserPermissions" Type="Self.UserPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="PermissionID" />
+            </Principal>
+            <Dependent Role="UserPermissions">
+              <PropertyRef Name="PermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermissions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserPermissions" Type="Self.UserPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserPermissions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetActiveEmployeesByDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepartmentName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetAverageHoursWorkedByDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepartmentID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetDepartmentsWithActiveProjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetEmployeesByJobTitle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JobTitleID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetEmployeesByProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetEmployeesWithCompletedTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetEmployeesWithoutSchedules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetEmployeesWithOverlappingTimeOff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetPayrollByEmployeeAndPeriod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="int" Mode="In" />
+          <Parameter Name="PayPeriodStart" Type="date" Mode="In" />
+          <Parameter Name="PayPeriodEnd" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetPendingTimeOffRequests" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetProjectsByDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepartmentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTasksByProjectAndStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetTotalOvertimeByEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="GetTotalTimeOffTakenByEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUpcomingYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TargetMonth" Type="int" Mode="In" />
+          <Parameter Name="TargetDay" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище AISCModelContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobTitles" EntityType="Self.JobTitles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasswordHashInfo" EntityType="Self.PasswordHashInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeEntries" EntityType="Self.TimeEntries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeOffRequests" EntityType="Self.TimeOffRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPermissions" EntityType="Self.UserPermissions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserPermissions].[UserID] AS [UserID], 
+    [UserPermissions].[PermissionID] AS [PermissionID]
+    FROM [dbo].[UserPermissions] AS [UserPermissions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Attendance_Employees" Association="Self.FK_Attendance_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuditLog_Users" Association="Self.FK_AuditLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLog" EntitySet="AuditLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Departments" Association="Self.FK_Employees_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_JobTitles" Association="Self.FK_Employees_JobTitles">
+            <End Role="JobTitles" EntitySet="JobTitles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_Employees" Association="Self.FK_Payroll_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Departments" Association="Self.FK_Projects_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedules_Employees" Association="Self.FK_Schedules_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Schedules" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Projects" Association="Self.FK_Tasks_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Employees" Association="Self.FK_TimeEntries_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Projects" Association="Self.FK_TimeEntries_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Tasks" Association="Self.FK_TimeEntries_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeOffRequests_Employees" Association="Self.FK_TimeOffRequests_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeOffRequests" EntitySet="TimeOffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeOffRequests_Users" Association="Self.FK_TimeOffRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TimeOffRequests" EntitySet="TimeOffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermissions_Permissions" Association="Self.FK_UserPermissions_Permissions">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="UserPermissions" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermissions_Users" Association="Self.FK_UserPermissions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPermissions" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Employees" Association="Self.FK_Users_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AISCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_AuditLog_Users" FromRole="AuditLog" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Departments" FromRole="Departments" ToRole="Employees" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Departments" FromRole="Departments" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="JobTitleID" Type="Int32" Nullable="false" />
+          <Property Name="HireDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ContactInfo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TerminationDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK_Employees_Departments" FromRole="Employees" ToRole="Departments" />
+          <NavigationProperty Name="JobTitles" Relationship="Self.FK_Employees_JobTitles" FromRole="Employees" ToRole="JobTitles" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_Payroll_Employees" FromRole="Employees" ToRole="Payroll" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedules_Employees" FromRole="Employees" ToRole="Schedules" />
+          <NavigationProperty Name="TimeEntries" Relationship="Self.FK_TimeEntries_Employees" FromRole="Employees" ToRole="TimeEntries" />
+          <NavigationProperty Name="TimeOffRequests" Relationship="Self.FK_TimeOffRequests_Employees" FromRole="Employees" ToRole="TimeOffRequests" />
+          <NavigationProperty Name="Attendance" Relationship="AISCModel.FK_Attendance_Employees" FromRole="Employees" ToRole="Attendance" />
+          <Property Name="HourlyRate" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Users" Relationship="AISCModel.FK_Users_Employees" FromRole="Employees" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="JobTitles">
+          <Key>
+            <PropertyRef Name="JobTitleID" />
+          </Key>
+          <Property Name="JobTitleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_JobTitles" FromRole="JobTitles" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="PayrollID" />
+          </Key>
+          <Property Name="PayrollID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="PayPeriodStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PayPeriodEnd" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GrossPay" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="NetPay" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Deductions" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Taxes" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Payroll_Employees" FromRole="Payroll" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK_Projects_Departments" FromRole="Projects" ToRole="Departments" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
+          <NavigationProperty Name="TimeEntries" Relationship="Self.FK_TimeEntries_Projects" FromRole="Projects" ToRole="TimeEntries" />
+        </EntityType>
+        <EntityType Name="Schedules">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="ShiftStart" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="ShiftEnd" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="DayOfWeek" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Schedules_Employees" FromRole="Schedules" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SettingName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SettingValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Tasks_Projects" FromRole="Tasks" ToRole="Projects" />
+          <NavigationProperty Name="TimeEntries" Relationship="Self.FK_TimeEntries_Tasks" FromRole="Tasks" ToRole="TimeEntries" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TimeEntries">
+          <Key>
+            <PropertyRef Name="TimeEntryID" />
+          </Key>
+          <Property Name="TimeEntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="ClockInTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClockOutTime" Type="DateTime" Precision="3" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="TaskID" Type="Int32" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_TimeEntries_Employees" FromRole="TimeEntries" ToRole="Employees" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_TimeEntries_Projects" FromRole="TimeEntries" ToRole="Projects" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_TimeEntries_Tasks" FromRole="TimeEntries" ToRole="Tasks" />
+          <Property Name="Overtime" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="TimeOffRequests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApprovedBy" Type="Int32" />
+          <Property Name="AvailableBalance" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_TimeOffRequests_Employees" FromRole="TimeOffRequests" ToRole="Employees" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_TimeOffRequests_Users" FromRole="TimeOffRequests" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AuditLog" Relationship="Self.FK_AuditLog_Users" FromRole="Users" ToRole="AuditLog" />
+          <NavigationProperty Name="TimeOffRequests" Relationship="Self.FK_TimeOffRequests_Users" FromRole="Users" ToRole="TimeOffRequests" />
+          <NavigationProperty Name="Permissions" Relationship="AISCModel.UserPermissions" FromRole="Users" ToRole="Permissions" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <NavigationProperty Name="Employees" Relationship="AISCModel.FK_Users_Employees" FromRole="Users" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK_AuditLog_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="AuditLog" Type="Self.AuditLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AuditLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Projects_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_JobTitles">
+          <End Role="JobTitles" Type="Self.JobTitles" Multiplicity="1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobTitles">
+              <PropertyRef Name="JobTitleID" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="JobTitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedules_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Schedules">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeOffRequests_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="TimeOffRequests" Type="Self.TimeOffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TimeOffRequests">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntries_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="TimeEntries">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeOffRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="TimeOffRequests" Type="Self.TimeOffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TimeOffRequests">
+              <PropertyRef Name="ApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AISCEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="JobTitles" EntityType="Self.JobTitles" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedules" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
+          <EntitySet Name="TimeEntries" EntityType="Self.TimeEntries" />
+          <EntitySet Name="TimeOffRequests" EntityType="Self.TimeOffRequests" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_AuditLog_Users" Association="Self.FK_AuditLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLog" EntitySet="AuditLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Departments" Association="Self.FK_Employees_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Projects_Departments" Association="Self.FK_Projects_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_JobTitles" Association="Self.FK_Employees_JobTitles">
+            <End Role="JobTitles" EntitySet="JobTitles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_Employees" Association="Self.FK_Payroll_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedules_Employees" Association="Self.FK_Schedules_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Schedules" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Employees" Association="Self.FK_TimeEntries_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeOffRequests_Employees" Association="Self.FK_TimeOffRequests_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="TimeOffRequests" EntitySet="TimeOffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Projects" Association="Self.FK_Tasks_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Projects" Association="Self.FK_TimeEntries_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntries_Tasks" Association="Self.FK_TimeEntries_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TimeEntries" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeOffRequests_Users" Association="Self.FK_TimeOffRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TimeOffRequests" EntitySet="TimeOffRequests" />
+          </AssociationSet>
+          <EntitySet Name="PasswordHashInfo" EntityType="AISCModel.PasswordHashInfo" />
+          <EntitySet Name="Attendance" EntityType="AISCModel.Attendance" />
+          <EntitySet Name="Permissions" EntityType="AISCModel.Permissions" />
+          <AssociationSet Name="FK_Attendance_Employees" Association="AISCModel.FK_Attendance_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="UserPermissions" Association="AISCModel.UserPermissions">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Employees" Association="AISCModel.FK_Users_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <FunctionImport Name="GetActiveEmployeesByDepartment" ReturnType="Collection(AISCModel.GetActiveEmployeesByDepartment_Result)">
+          <Parameter Name="DepartmentName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAverageHoursWorkedByDepartment" ReturnType="Collection(Int32)">
+            <Parameter Name="DepartmentID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetDepartmentsWithActiveProjects" ReturnType="Collection(AISCModel.GetDepartmentsWithActiveProjects_Result)" />
+          <FunctionImport Name="GetEmployeesByJobTitle" ReturnType="Collection(AISCModel.GetEmployeesByJobTitle_Result)">
+          <Parameter Name="JobTitleID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetEmployeesByProject" ReturnType="Collection(AISCModel.GetEmployeesByProject_Result)">
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetEmployeesWithCompletedTasks" ReturnType="Collection(AISCModel.GetEmployeesWithCompletedTasks_Result)">
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetEmployeesWithoutSchedules" ReturnType="Collection(AISCModel.GetEmployeesWithoutSchedules_Result)" />
+          <FunctionImport Name="GetEmployeesWithOverlappingTimeOff" ReturnType="Collection(AISCModel.GetEmployeesWithOverlappingTimeOff_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPayrollByEmployeeAndPeriod" ReturnType="Collection(AISCModel.GetPayrollByEmployeeAndPeriod_Result)">
+            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+            <Parameter Name="PayPeriodStart" Mode="In" Type="DateTime" />
+            <Parameter Name="PayPeriodEnd" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetPendingTimeOffRequests" ReturnType="Collection(AISCModel.GetPendingTimeOffRequests_Result)" />
+          <FunctionImport Name="GetProjectsByDepartment" ReturnType="Collection(AISCModel.GetProjectsByDepartment_Result)">
+          <Parameter Name="DepartmentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTasksByProjectAndStatus" ReturnType="Collection(AISCModel.GetTasksByProjectAndStatus_Result)">
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetTotalOvertimeByEmployee" ReturnType="Collection(Decimal)">
+            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetTotalTimeOffTakenByEmployee" ReturnType="Collection(Int32)">
+            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetUpcomingYear" ReturnType="Collection(AISCModel.GetUpcomingYear_Result)" >
+            <Parameter Name="TargetMonth" Mode="In" Type="Int32" />
+            <Parameter Name="TargetDay" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="PasswordHashInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastHashDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AttendanceStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="AISCModel.FK_Attendance_Employees" FromRole="Attendance" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="AISCModel.UserPermissions" FromRole="Permissions" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Attendance_Employees">
+          <End Type="AISCModel.Employees" Role="Employees" Multiplicity="1" />
+          <End Type="AISCModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserPermissions">
+          <End Type="AISCModel.Permissions" Role="Permissions" Multiplicity="*" />
+          <End Type="AISCModel.Users" Role="Users" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Users_Employees">
+          <End Type="AISCModel.Employees" Role="Employees" Multiplicity="0..1" />
+          <End Type="AISCModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetActiveEmployeesByDepartment_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetDepartmentsWithActiveProjects_Result">
+          <Property Type="Int32" Name="DepartmentID" Nullable="false" />
+          <Property Type="String" Name="DepartmentName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetEmployeesByJobTitle_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetEmployeesByProject_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetEmployeesWithCompletedTasks_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetEmployeesWithoutSchedules_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetEmployeesWithOverlappingTimeOff_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetPayrollByEmployeeAndPeriod_Result">
+          <Property Type="Int32" Name="PayrollID" Nullable="false" />
+          <Property Type="Decimal" Name="GrossPay" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="NetPay" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Deductions" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="Taxes" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetPendingTimeOffRequests_Result">
+          <Property Type="Int32" Name="RequestID" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetProjectsByDepartment_Result">
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetTasksByProjectAndStatus_Result">
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="GetUpcomingYear_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="HireDate" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AISCModelContainer" CdmEntityContainer="AISCEntities1">
+          <EntitySetMapping Name="AuditLog">
+            <EntityTypeMapping TypeName="AISCModel.AuditLog">
+              <MappingFragment StoreEntitySet="AuditLog">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="AISCModel.Departments">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="AISCModel.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="JobTitleID" ColumnName="JobTitleID" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ContactInfo" ColumnName="ContactInfo" />
+                <ScalarProperty Name="TerminationDate" ColumnName="TerminationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobTitles">
+            <EntityTypeMapping TypeName="AISCModel.JobTitles">
+              <MappingFragment StoreEntitySet="JobTitles">
+                <ScalarProperty Name="JobTitleID" ColumnName="JobTitleID" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payroll">
+            <EntityTypeMapping TypeName="AISCModel.Payroll">
+              <MappingFragment StoreEntitySet="Payroll">
+                <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="PayPeriodStart" ColumnName="PayPeriodStart" />
+                <ScalarProperty Name="PayPeriodEnd" ColumnName="PayPeriodEnd" />
+                <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="Deductions" ColumnName="Deductions" />
+                <ScalarProperty Name="Taxes" ColumnName="Taxes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="AISCModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="AISCModel.Schedules">
+              <MappingFragment StoreEntitySet="Schedules">
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="ShiftStart" ColumnName="ShiftStart" />
+                <ScalarProperty Name="ShiftEnd" ColumnName="ShiftEnd" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="ScheduleType" ColumnName="ScheduleType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="AISCModel.Settings">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="SettingID" ColumnName="SettingID" />
+                <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+                <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="AISCModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeEntries">
+            <EntityTypeMapping TypeName="AISCModel.TimeEntries">
+              <MappingFragment StoreEntitySet="TimeEntries">
+                <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+                <ScalarProperty Name="TimeEntryID" ColumnName="TimeEntryID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="ClockInTime" ColumnName="ClockInTime" />
+                <ScalarProperty Name="ClockOutTime" ColumnName="ClockOutTime" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeOffRequests">
+            <EntityTypeMapping TypeName="AISCModel.TimeOffRequests">
+              <MappingFragment StoreEntitySet="TimeOffRequests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="AvailableBalance" ColumnName="AvailableBalance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AISCModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordHashInfo">
+            <EntityTypeMapping TypeName="AISCModel.PasswordHashInfo">
+              <MappingFragment StoreEntitySet="PasswordHashInfo">
+                <ScalarProperty Name="LastHashDate" ColumnName="LastHashDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendance">
+            <EntityTypeMapping TypeName="AISCModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="AttendanceStatus" ColumnName="AttendanceStatus" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="AISCModel.Permissions">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserPermissions" TypeName="AISCModel.UserPermissions" StoreEntitySet="UserPermissions">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Permissions">
+              <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetActiveEmployeesByDepartment" FunctionName="Хранилище AISCModel.GetActiveEmployeesByDepartment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetActiveEmployeesByDepartment_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAverageHoursWorkedByDepartment" FunctionName="Хранилище AISCModel.GetAverageHoursWorkedByDepartment" />
+          <FunctionImportMapping FunctionImportName="GetDepartmentsWithActiveProjects" FunctionName="Хранилище AISCModel.GetDepartmentsWithActiveProjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetDepartmentsWithActiveProjects_Result">
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEmployeesByJobTitle" FunctionName="Хранилище AISCModel.GetEmployeesByJobTitle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetEmployeesByJobTitle_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEmployeesByProject" FunctionName="Хранилище AISCModel.GetEmployeesByProject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetEmployeesByProject_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEmployeesWithCompletedTasks" FunctionName="Хранилище AISCModel.GetEmployeesWithCompletedTasks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetEmployeesWithCompletedTasks_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEmployeesWithoutSchedules" FunctionName="Хранилище AISCModel.GetEmployeesWithoutSchedules">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetEmployeesWithoutSchedules_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEmployeesWithOverlappingTimeOff" FunctionName="Хранилище AISCModel.GetEmployeesWithOverlappingTimeOff">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetEmployeesWithOverlappingTimeOff_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPayrollByEmployeeAndPeriod" FunctionName="Хранилище AISCModel.GetPayrollByEmployeeAndPeriod">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetPayrollByEmployeeAndPeriod_Result">
+                <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+                <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="Deductions" ColumnName="Deductions" />
+                <ScalarProperty Name="Taxes" ColumnName="Taxes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPendingTimeOffRequests" FunctionName="Хранилище AISCModel.GetPendingTimeOffRequests">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetPendingTimeOffRequests_Result">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetProjectsByDepartment" FunctionName="Хранилище AISCModel.GetProjectsByDepartment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetProjectsByDepartment_Result">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTasksByProjectAndStatus" FunctionName="Хранилище AISCModel.GetTasksByProjectAndStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetTasksByProjectAndStatus_Result">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTotalOvertimeByEmployee" FunctionName="Хранилище AISCModel.GetTotalOvertimeByEmployee" />
+          <FunctionImportMapping FunctionImportName="GetTotalTimeOffTakenByEmployee" FunctionName="Хранилище AISCModel.GetTotalTimeOffTakenByEmployee" />
+          <FunctionImportMapping FunctionImportName="GetUpcomingYear" FunctionName="Хранилище AISCModel.GetUpcomingYear">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AISCModel.GetUpcomingYear_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

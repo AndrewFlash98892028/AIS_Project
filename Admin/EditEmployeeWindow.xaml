@@ -1,0 +1,35 @@
+﻿<Window x:Class="AIS.Admin.EditEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактор сотрудника" Height="350" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="First Name:" HorizontalAlignment="Right" Margin="5"/>
+        <TextBox x:Name="txtFirstName" Grid.Row="0" Grid.Column="1" Margin="5" ToolTip="Имя,фамилия"/>
+
+        <Label Grid.Row="1" Content="Last Name:" HorizontalAlignment="Right" Margin="5"/>
+        <TextBox x:Name="txtLastName" Grid.Row="1" Grid.Column="1" Margin="5" ToolTip="Отчество"/>
+
+        <Label Grid.Row="2" Content="Department:" HorizontalAlignment="Right" Margin="5"/>
+        <ComboBox x:Name="cmbDepartment" Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+        <Label Grid.Row="3" Content="Job Title:" HorizontalAlignment="Right" Margin="5"/>
+        <ComboBox x:Name="cmbJobTitle" Grid.Row="3" Grid.Column="1" Margin="5"/>
+
+        <Label Grid.Row="4" Content="Hire Date:" HorizontalAlignment="Right" Margin="5"/>
+        <DatePicker x:Name="dpHireDate" Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Width="80" Margin="5"/>
+            <Button x:Name="btnCancel" Content="Отдел" Click="btnCancel_Click" Width="80" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

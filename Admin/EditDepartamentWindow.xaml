@@ -1,0 +1,23 @@
+﻿<Window x:Class="AIS.Admin.EditDepartamentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIS.Admin"
+        mc:Ignorable="d"
+        Title="Редактор отелов" Height="200" Width="300">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Department Name:" HorizontalAlignment="Right" Margin="5"/>
+        <TextBox x:Name="txtDepartmentName" Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Width="80" Margin="5"/>
+            <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Width="80" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

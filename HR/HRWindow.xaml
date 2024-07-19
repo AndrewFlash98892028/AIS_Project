@@ -1,0 +1,120 @@
+﻿<Window x:Class="AIS.HR.HRWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HR Portal" Height="600" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type Control}">
+                <Setter Property="Background" Value="#FDF6F0" />
+                <Setter Property="Foreground" Value="#403020" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+            </Style>
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="#C89664" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Padding" Value="15,8" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style TargetType="{x:Type Frame}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="BorderBrush" Value="#E0D6C8" />
+                <Setter Property="Margin" Value="10" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#C89664" Margin="0">
+            <TextBlock Text="Отдел Кадров" 
+                       Foreground="White"
+                       FontSize="28" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <Button Content="Выход" 
+                    Background="#D9A47C" 
+                    Foreground="White"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="10" 
+                    Click="btnLogout_Click" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="10">
+                <Button Content="Учет рабочего времени" 
+                        Click="btnEmployeeTime_Click" 
+                        Margin="5" Height="50"/>
+
+                <Button Content="Запросы на отпуск" 
+                        Click="btnTimeOffRequests_Click" 
+                        Margin="5" Height="50"/>
+
+                <Button Content="Управление сотрудниками" 
+                        Click="btnEmployeeManagement_Click" 
+                        Margin="5" Height="50"/>
+
+                <Button Content="Отчеты" 
+                        Click="btnReports_Click" 
+                        Margin="5" Height="50"/>
+
+                <Border BorderBrush="#E0D6C8" 
+                        BorderThickness="1" 
+                        Margin="5" 
+                        CornerRadius="4" 
+                        Background="White">
+
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Статистика HR" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,10" />
+
+                        <TextBlock Text="Ожидающие заявок на отпуск:" />
+                        <TextBlock x:Name="lblPendingTimeOffRequests" Margin="5,0,0,0" />
+
+                        <TextBlock Text="Другая статистика..." Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <Frame x:Name="frmHRContent" 
+                   Grid.Column="1" 
+                   NavigationUIVisibility="Hidden" 
+                   Background="#FDF6F0" />
+        </Grid>
+    </Grid>
+
+</Window>
