@@ -11,6 +11,8 @@ namespace AIS
 {
     public partial class MainWindow : Window
     {
+        private int employeeID;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -106,7 +108,7 @@ namespace AIS
 
                         switch (user.RoleID)
                         {
-                            case 1: // Админ - он будет руководителем
+                            case 1: // Админ 
                                 AdminWindow adminWindow = new AdminWindow(employeeID);
                                 adminWindow.Show();
                                 break;
@@ -164,8 +166,9 @@ namespace AIS
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           // AdminWindow adminWindow = new AdminWindow(employeeID);//для обхода на страницу админа кнопка в xaml
-            //adminWindow.Show();
+
+            AdminWindow adminWindow = new AdminWindow(employeeID);//для обхода на страницу админа кнопка в xaml
+            adminWindow.Show();
 
         }
     }

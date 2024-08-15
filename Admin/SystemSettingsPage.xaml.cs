@@ -25,7 +25,7 @@ namespace AIS.Admin
     public partial class SystemSettingsPage : Page
     {
         private readonly AISCEntities1 context = new AISCEntities1();
-        private readonly string connectionString = @"Data Source=DESKTOP-VT15G9R\SQLEXPRESS01;Initial Catalog=AISC;Integrated Security=True";
+        private readonly string connectionString = @"Data Source=DESKTOP-3VRKVMQ\SQLEXPRESS01;Initial Catalog=AISC;Integrated Security=True";
 
         private readonly Dictionary<string, string> russianOutputColumnNames = new Dictionary<string, string>
         {

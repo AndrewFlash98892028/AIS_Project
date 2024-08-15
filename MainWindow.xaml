@@ -29,6 +29,6 @@
         <PasswordBox x:Name="txtPassword" Grid.Row="1" Grid.Column="1" Width="200" Margin="0,59,0,33" HorizontalAlignment="Center"/>
         <CheckBox x:Name="chkAgree" Content="Я соглашаюсь с политикой безопасности" Grid.Row="4" Grid.Column="1" Margin="10,62,10,10"/>
         <Button x:Name="btnLogin" Grid.Row="4" Grid.Column="1" Content="Войти" Margin="53,108,60,10" Click="btnLogin_Click"/>
-        <Button Grid.Column="1" Content="Button" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="279,90,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click" Visibility="Hidden"/>
+        <Button Grid.Column="2" Content="Тест вход" HorizontalAlignment="Center" Margin="0,98,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click" Visibility="Visible" Height="56" Width="91"/>
     </Grid>
 </Window>

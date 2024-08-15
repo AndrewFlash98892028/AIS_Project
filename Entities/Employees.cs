@@ -17,11 +17,11 @@ namespace AIS.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employees()
         {
+            this.Attendance = new HashSet<Attendance>();
             this.Payroll = new HashSet<Payroll>();
             this.Schedules = new HashSet<Schedules>();
             this.TimeEntries = new HashSet<TimeEntries>();
             this.TimeOffRequests = new HashSet<TimeOffRequests>();
-            this.Attendance = new HashSet<Attendance>();
             this.Users = new HashSet<Users>();
         }
     
@@ -36,6 +36,8 @@ namespace AIS.Entities
         public Nullable<System.DateTime> TerminationDate { get; set; }
         public Nullable<decimal> HourlyRate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendance { get; set; }
         public virtual Departments Departments { get; set; }
         public virtual JobTitles JobTitles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -46,8 +48,6 @@ namespace AIS.Entities
         public virtual ICollection<TimeEntries> TimeEntries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeOffRequests> TimeOffRequests { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attendance> Attendance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
     }

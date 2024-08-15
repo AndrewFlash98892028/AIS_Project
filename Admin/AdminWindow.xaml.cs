@@ -4,24 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using System.Windows.Threading;
-using System.Runtime.CompilerServices;
 
 namespace AIS.Admin
 {
     public partial class AdminWindow : Window
     {
+        private DateTime onlineTime;
+        private DispatcherTimer onlineTimer;
+
         private DispatcherTimer overtimeTimer;
         private bool isOvertime = false;
         private TimeSpan totalOvertime = TimeSpan.Zero;
         private TimeSpan startTime = TimeSpan.Zero;
-        private DispatcherTimer workTimer;
+
         private DispatcherTimer inactivityTimer;
         private DateTime? clockInTime;
         private DateTime lastActivityTime;
@@ -32,11 +32,14 @@ namespace AIS.Admin
         private TimeSpan lunchBreakStartTime;
         private TimeSpan workDayEndTime;
         private int inactivityThresholdMinutes;
+        private DateTime appStartTime;
+        private TimeSpan totalTimeElapsed;
+        private DispatcherTimer appTimer;
 
         private bool endOfWorkdayNotificationShown = false;
         private Dictionary<int, DateTime?> employeeClockInTimes = new Dictionary<int, DateTime?>();
         private AISCEntities1 dbContext = new AISCEntities1();
-        private string connectionString = @"Data Source=DESKTOP-VT15G9R\SQLEXPRESS01;Initial Catalog=AISC;Integrated Security=True";
+        private string connectionString = @"Data Source=DESKTOP-3VRKVMQ\SQLEXPRESS01;Initial Catalog=AISC;Integrated Security=True";
         private DispatcherTimer dashboardTimer;
         private Dictionary<string, List<SqlParameter>> procedureParameters = new Dictionary<string, List<SqlParameter>>
         {
@@ -161,10 +164,12 @@ namespace AIS.Admin
             LoadEmployeeName();
             LoadSettings();
 
+            //workTimer = new DispatcherTimer();
+            // workTimer.Interval = TimeSpan.FromSeconds(1);
+            // workTimer.Tick += WorkTimer_Tick;
             workTimer = new DispatcherTimer();
             workTimer.Interval = TimeSpan.FromSeconds(1);
             workTimer.Tick += WorkTimer_Tick;
-            EmployeeWindow.EmployeeOvertimeUpdated += EmployeeWindow_EmployeeOvertimeUpdated;
             inactivityTimer = new DispatcherTimer();
             inactivityTimer.Interval = TimeSpan.FromMinutes(1);
             inactivityTimer.Tick += InactivityTimer_Tick;
@@ -179,15 +184,40 @@ namespace AIS.Admin
             UpdateDashboard();
             PopulateComboBox();
 
+            
+            appStartTime = DateTime.Now;
+            appTimer = new DispatcherTimer();
+            appTimer.Interval = TimeSpan.FromSeconds(1);
+            appTimer.Tick += AppTimer_Tick;
+            appTimer.Start();
+
+           
+            onlineTimer = new DispatcherTimer();
+            onlineTimer.Interval = TimeSpan.FromSeconds(1);
+            onlineTimer.Tick += OnlineTimer_Tick;
 
 
 
         }
+
+        private void AppTimer_Tick(object sender, EventArgs e)
+        {
+            totalTimeElapsed = DateTime.Now - appStartTime;
+            txtTimeElapsed.Text = $"(Офлайн) {totalTimeElapsed:hh\\:mm\\:ss}";
+        }
+
+        private void OnlineTimer_Tick(object sender, EventArgs e)
+        {
+            TimeSpan onlineDuration = DateTime.Now - onlineTime;
+            txtTimeElapsed.Text = $" {onlineDuration:hh\\:mm\\:ss}";
+        }
+
         private Dictionary<int, TimeSpan> employeeOvertime = new Dictionary<int, TimeSpan>();
+        private DispatcherTimer workTimer;
 
         private void EmployeeWindow_EmployeeOvertimeUpdated(object sender, EmployeeOvertimeEventArgs e)
         {
-            
+
             if (employeeOvertime.ContainsKey(e.EmployeeId))
             {
                 employeeOvertime[e.EmployeeId] = e.Overtime;
@@ -197,10 +227,10 @@ namespace AIS.Admin
                 employeeOvertime.Add(e.EmployeeId, e.Overtime);
             }
 
-            
+
             Dispatcher.Invoke(() =>
             {
-                UpdateDashboard(); 
+                UpdateDashboard();
             });
         }
 
@@ -225,12 +255,12 @@ namespace AIS.Admin
                 if (DateTime.Now.TimeOfDay > lunchBreakStartTime + GetLunchBreakDuration() &&
                     clockInTime.Value.TimeOfDay < lunchBreakStartTime)
                 {
-                    elapsed -= GetLunchBreakDuration();
+                    _ = GetLunchBreakDuration();
                 }
 
-               // txtClockedInStatus.Text = elapsed.ToString(@"hh\:mm\:ss");
+                // txtClockedInStatus.Text = elapsed.ToString(@"hh\:mm\:ss");
 
-               
+
                 if (DateTime.Now.TimeOfDay >= lunchBreakStartTime &&
                     DateTime.Now.TimeOfDay < lunchBreakStartTime + GetLunchBreakDuration() &&
                     !lunchBreakNotificationShown)
@@ -238,17 +268,17 @@ namespace AIS.Admin
                     ShowLunchBreakReminder();
                     lunchBreakNotificationShown = true;
                 }
-               
+
                 else if (DateTime.Now.TimeOfDay > lunchBreakStartTime + GetLunchBreakDuration())
                 {
                     lunchBreakNotificationShown = false;
                 }
 
-             
+
                 if (DateTime.Now.TimeOfDay >= workDayEndTime && !endOfWorkdayNotificationShown)
                 {
                     ShowEndOfWorkdayNotification();
-                    workTimer.Stop(); 
+                    //  workTimer.Stop(); 
                     endOfWorkdayNotificationShown = true;
                 }
             }
@@ -268,19 +298,19 @@ namespace AIS.Admin
             TimeSpan elapsed = DateTime.UtcNow - lastActivityTime;
             if (elapsed.TotalMinutes >= inactivityThresholdMinutes && clockInTime != null)
             {
-                MessageBox.Show("Внимание: Вы были неактивны более 5 минут.", "Предупреждение о неактивности");
+                _ = MessageBox.Show("Внимание: Вы были неактивны более 5 минут.", "Предупреждение о неактивности");
                 lastActivityTime = DateTime.UtcNow;
             }
         }
 
         private void ShowLunchBreakReminder()
         {
-            MessageBox.Show("Напоминание: Время обеденного перерыва!", "Обеденный перерыв");
+            _ = MessageBox.Show("Напоминание: Время обеденного перерыва!", "Обеденный перерыв");
         }
 
         private void ShowEndOfWorkdayNotification()
         {
-            MessageBox.Show("Рабочий день окончен.", "Окончание рабочего дня");
+            _ = MessageBox.Show("Рабочий день окончен.", "Окончание рабочего дня");
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -306,7 +336,7 @@ namespace AIS.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке настроек: {ex.Message}");
+                _ = MessageBox.Show($"Ошибка при загрузке настроек: {ex.Message}");
                 workDayStartTime = new TimeSpan(8, 0, 0);
                 lunchBreakStartTime = new TimeSpan(12, 0, 0);
                 workDayEndTime = new TimeSpan(17, 0, 0);
@@ -335,7 +365,7 @@ namespace AIS.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке имени сотрудника: {ex.Message}");
+                _ = MessageBox.Show($"Ошибка при загрузке имени сотрудника: {ex.Message}");
             }
         }
 
@@ -359,14 +389,14 @@ namespace AIS.Admin
                 {
                     connection.Open();
 
-                   
+
                     using (var command = new SqlCommand("SELECT COUNT(*) FROM TimeEntries WHERE CAST(ClockInTime AS DATE) = CAST(GETDATE() AS DATE) AND ClockOutTime IS NULL", connection))
                     {
                         int clockedInEmployees = (int)command.ExecuteScalar();
                         lblClockedInEmployees.Text = clockedInEmployees.ToString();
                     }
 
-                   
+
                     using (var command = new SqlCommand("SELECT SUM(DATEDIFF(minute, ClockInTime, ClockOutTime)) / 60.0 FROM TimeEntries WHERE CAST(ClockInTime AS DATE) = CAST(GETDATE() AS DATE) AND ClockOutTime IS NOT NULL", connection))
                     {
                         var result = command.ExecuteScalar();
@@ -374,7 +404,7 @@ namespace AIS.Admin
                         lblTotalHoursWorked.Text = totalHours.ToString("F2");
                     }
 
-                  
+
                     using (var command = new SqlCommand(@"
                 SELECT SUM(CASE 
                                WHEN DATEDIFF(minute, ClockInTime, ClockOutTime) > 480 
@@ -397,15 +427,15 @@ namespace AIS.Admin
                     }
                     Dispatcher.Invoke(() =>
                     {
-                      
 
-                        lblClockedInEmployees.Text = clockedInEmployeesCount.ToString(); 
+
+                        lblClockedInEmployees.Text = clockedInEmployeesCount.ToString();
                     });
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка обновления: {ex.Message}");
+                _ = MessageBox.Show($"Ошибка обновления: {ex.Message}");
             }
         }
         private string GetDashboardValue(SqlConnection connection, string query, string format = null)
@@ -452,6 +482,7 @@ namespace AIS.Admin
 
         private void btnEmployeeManagement_Click(object sender, RoutedEventArgs e)
         {
+            NavigateAndHandleClockInOut(new EmployeePage());
             _ = frmAdminContent.Navigate(new EmployeePage());
             if (clockInTime == null)
             {
@@ -461,11 +492,11 @@ namespace AIS.Admin
                 employeeClockInTimes[currentEmployeeID] = DateTime.UtcNow;
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
                 clockedInEmployeesCount++;
-                workTimer.Start();
+                //  workTimer.Start();
                 inactivityTimer.Start();
 
                 if (clockInTime.Value.TimeOfDay >= workDayEndTime)
@@ -477,7 +508,7 @@ namespace AIS.Admin
                     });
                 }
 
-               
+
                 ToggleClockInOutButton(false);
             }
             else
@@ -495,7 +526,7 @@ namespace AIS.Admin
 
                 RefreshDashboard();
 
-               
+
                 ToggleClockInOutButton(true);
             }
         }
@@ -504,7 +535,7 @@ namespace AIS.Admin
         {
             Dispatcher.Invoke(() =>
             {
-               // btnEmployeeManagement_Click.IsEnabled = isEnabled;
+                // btnEmployeeManagement_Click.IsEnabled = isEnabled;
             });
         }
 
@@ -514,17 +545,24 @@ namespace AIS.Admin
             {
                 clockInTime = DateTime.Now;
                 txtClockedInStatus.Text = "Да";
-
+                txtClockedInStatus.UpdateLayout();
+                _ = Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(delegate { }));
                 if (clockInTime.Value.TimeOfDay >= workDayEndTime)
                 {
                     clockedInEmployeesCount++;
+                    UpdateDashboard();
                     overtimeTimer = new DispatcherTimer();
                     overtimeTimer.Interval = TimeSpan.FromSeconds(1);
                     overtimeTimer.Tick += OvertimeTimer_Tick;
                     overtimeTimer.Start();
                 }
+                txtTimeElapsed.Text = $"(Online) {totalTimeElapsed:hh\\:mm\\:ss}";
+                onlineTime = DateTime.Now;
+                onlineTimer.Start();
 
-                workTimer.Start();
+                appTimer.Stop();
+
+              
                 inactivityTimer.Start();
             }
         }
@@ -546,10 +584,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                //workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -557,7 +595,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -577,10 +615,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                //  workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -588,7 +626,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -596,6 +634,31 @@ namespace AIS.Admin
 
 
             }
+        }
+        private void NavigateAndHandleClockInOut(Page page)
+        {
+            _ = frmAdminContent.Navigate(page);
+
+            if (clockInTime == null)
+            {
+                StartWork();
+            }
+            else
+            {
+                ClockOut();
+            }
+        }
+
+        private void ClockOut()
+        {
+            clockedInEmployeesCount--;
+            UpdateDashboard();
+            txtTimeElapsed.Text = $"(Online) {totalTimeElapsed:hh\\:mm\\:ss}";
+            onlineTimer.Stop();
+
+            txtTimeElapsed.Text = $"(Offline) {totalTimeElapsed:hh\\:mm\\:ss}";
+
+            appTimer.Start();
         }
 
         private void btnTimeOff_Click(object sender, RoutedEventArgs e)
@@ -608,10 +671,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+
                 inactivityTimer.Start();
 
 
@@ -619,7 +682,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -639,10 +702,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                //  workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -650,7 +713,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -670,10 +733,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                //  workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -681,7 +744,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -695,7 +758,7 @@ namespace AIS.Admin
         {
 
 
-            frmAdminContent.Navigate(new ReportsPage(dbContext));
+            _ = frmAdminContent.Navigate(new ReportsPage(dbContext));
             if (clockInTime == null)
             {
                 clockInTime = DateTime.UtcNow;
@@ -703,10 +766,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                //  workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -714,7 +777,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -735,10 +798,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                // workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -746,7 +809,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -766,10 +829,10 @@ namespace AIS.Admin
 
                 if (clockInTime.Value.TimeOfDay > workDayStartTime)
                 {
-                    MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                    _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
                 }
 
-                workTimer.Start();
+                // workTimer.Start();
                 inactivityTimer.Start();
 
 
@@ -777,7 +840,7 @@ namespace AIS.Admin
             }
             else
             {
-                DateTime clockOutTime = DateTime.UtcNow;
+                _ = DateTime.UtcNow;
                 inactivityTimer.Stop();
 
 
@@ -801,7 +864,7 @@ namespace AIS.Admin
         {
             foreach (var procedureName in procedureParameters.Keys)
             {
-                cmbStoredProcedures.Items.Add(russianProcedureNames.ContainsKey(procedureName)
+                _ = cmbStoredProcedures.Items.Add(russianProcedureNames.ContainsKey(procedureName)
                                       ? russianProcedureNames[procedureName]
                                       : procedureName);
             }
@@ -825,8 +888,8 @@ namespace AIS.Admin
 
                     Control inputControl = parameter.SqlDbType == System.Data.SqlDbType.Date ? new DatePicker() : (Control)new TextBox();
 
-                    ParameterInputs.Children.Add(label);
-                    ParameterInputs.Children.Add(inputControl);
+                    _ = ParameterInputs.Children.Add(label);
+                    _ = ParameterInputs.Children.Add(inputControl);
                     parameter.Value = inputControl;
                 }
             }
@@ -857,7 +920,7 @@ namespace AIS.Admin
                                 else if (inputControl is TextBox textBox)
                                     newParameter.Value = textBox.Text;
                             }
-                            command.Parameters.Add(newParameter);
+                            _ = command.Parameters.Add(newParameter);
                         }
 
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -877,7 +940,7 @@ namespace AIS.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                _ = MessageBox.Show($"Ошибка: {ex.Message}");
             }
 
             if (clockInTime != null) return;
@@ -886,9 +949,9 @@ namespace AIS.Admin
             txtClockedInStatus.Text = "Да";
 
             if (clockInTime.Value.TimeOfDay > workDayStartTime)
-                MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
+                _ = MessageBox.Show("Внимание: Вы опоздали на работу!", "Опоздание");
 
-            workTimer.Start();
+            //  workTimer.Start();
             inactivityTimer.Start();
         }
 

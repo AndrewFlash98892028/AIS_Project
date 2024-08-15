@@ -12,8 +12,6 @@ namespace AIS.Entities
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class AISCEntities1 : DbContext
     {
@@ -27,183 +25,21 @@ namespace AIS.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Attendance> Attendance { get; set; }
         public virtual DbSet<AuditLog> AuditLog { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<JobTitles> JobTitles { get; set; }
+        public virtual DbSet<PasswordHashInfo> PasswordHashInfo { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }
+        public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Schedules> Schedules { get; set; }
         public virtual DbSet<Settings> Settings { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<TimeEntries> TimeEntries { get; set; }
         public virtual DbSet<TimeOffRequests> TimeOffRequests { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<PasswordHashInfo> PasswordHashInfo { get; set; }
-        public virtual DbSet<Attendance> Attendance { get; set; }
-        public virtual DbSet<Permissions> Permissions { get; set; }
-    
-        public virtual ObjectResult<GetActiveEmployeesByDepartment_Result> GetActiveEmployeesByDepartment(string departmentName)
-        {
-            var departmentNameParameter = departmentName != null ?
-                new ObjectParameter("DepartmentName", departmentName) :
-                new ObjectParameter("DepartmentName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetActiveEmployeesByDepartment_Result>("GetActiveEmployeesByDepartment", departmentNameParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> GetAverageHoursWorkedByDepartment(Nullable<int> departmentID, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
-        {
-            var departmentIDParameter = departmentID.HasValue ?
-                new ObjectParameter("DepartmentID", departmentID) :
-                new ObjectParameter("DepartmentID", typeof(int));
-    
-            var startDateParameter = startDate.HasValue ?
-                new ObjectParameter("StartDate", startDate) :
-                new ObjectParameter("StartDate", typeof(System.DateTime));
-    
-            var endDateParameter = endDate.HasValue ?
-                new ObjectParameter("EndDate", endDate) :
-                new ObjectParameter("EndDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetAverageHoursWorkedByDepartment", departmentIDParameter, startDateParameter, endDateParameter);
-        }
-    
-        public virtual ObjectResult<GetDepartmentsWithActiveProjects_Result> GetDepartmentsWithActiveProjects()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDepartmentsWithActiveProjects_Result>("GetDepartmentsWithActiveProjects");
-        }
-    
-        public virtual ObjectResult<GetEmployeesByJobTitle_Result> GetEmployeesByJobTitle(Nullable<int> jobTitleID)
-        {
-            var jobTitleIDParameter = jobTitleID.HasValue ?
-                new ObjectParameter("JobTitleID", jobTitleID) :
-                new ObjectParameter("JobTitleID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployeesByJobTitle_Result>("GetEmployeesByJobTitle", jobTitleIDParameter);
-        }
-    
-        public virtual ObjectResult<GetEmployeesByProject_Result> GetEmployeesByProject(Nullable<int> projectID)
-        {
-            var projectIDParameter = projectID.HasValue ?
-                new ObjectParameter("ProjectID", projectID) :
-                new ObjectParameter("ProjectID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployeesByProject_Result>("GetEmployeesByProject", projectIDParameter);
-        }
-    
-        public virtual ObjectResult<GetEmployeesWithCompletedTasks_Result> GetEmployeesWithCompletedTasks(Nullable<int> projectID)
-        {
-            var projectIDParameter = projectID.HasValue ?
-                new ObjectParameter("ProjectID", projectID) :
-                new ObjectParameter("ProjectID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployeesWithCompletedTasks_Result>("GetEmployeesWithCompletedTasks", projectIDParameter);
-        }
-    
-        public virtual ObjectResult<GetEmployeesWithoutSchedules_Result> GetEmployeesWithoutSchedules()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployeesWithoutSchedules_Result>("GetEmployeesWithoutSchedules");
-        }
-    
-        public virtual ObjectResult<GetEmployeesWithOverlappingTimeOff_Result> GetEmployeesWithOverlappingTimeOff(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
-        {
-            var startDateParameter = startDate.HasValue ?
-                new ObjectParameter("StartDate", startDate) :
-                new ObjectParameter("StartDate", typeof(System.DateTime));
-    
-            var endDateParameter = endDate.HasValue ?
-                new ObjectParameter("EndDate", endDate) :
-                new ObjectParameter("EndDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetEmployeesWithOverlappingTimeOff_Result>("GetEmployeesWithOverlappingTimeOff", startDateParameter, endDateParameter);
-        }
-    
-        public virtual ObjectResult<GetPayrollByEmployeeAndPeriod_Result> GetPayrollByEmployeeAndPeriod(Nullable<int> employeeID, Nullable<System.DateTime> payPeriodStart, Nullable<System.DateTime> payPeriodEnd)
-        {
-            var employeeIDParameter = employeeID.HasValue ?
-                new ObjectParameter("EmployeeID", employeeID) :
-                new ObjectParameter("EmployeeID", typeof(int));
-    
-            var payPeriodStartParameter = payPeriodStart.HasValue ?
-                new ObjectParameter("PayPeriodStart", payPeriodStart) :
-                new ObjectParameter("PayPeriodStart", typeof(System.DateTime));
-    
-            var payPeriodEndParameter = payPeriodEnd.HasValue ?
-                new ObjectParameter("PayPeriodEnd", payPeriodEnd) :
-                new ObjectParameter("PayPeriodEnd", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPayrollByEmployeeAndPeriod_Result>("GetPayrollByEmployeeAndPeriod", employeeIDParameter, payPeriodStartParameter, payPeriodEndParameter);
-        }
-    
-        public virtual ObjectResult<GetPendingTimeOffRequests_Result> GetPendingTimeOffRequests()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPendingTimeOffRequests_Result>("GetPendingTimeOffRequests");
-        }
-    
-        public virtual ObjectResult<GetProjectsByDepartment_Result> GetProjectsByDepartment(Nullable<int> departmentID)
-        {
-            var departmentIDParameter = departmentID.HasValue ?
-                new ObjectParameter("DepartmentID", departmentID) :
-                new ObjectParameter("DepartmentID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProjectsByDepartment_Result>("GetProjectsByDepartment", departmentIDParameter);
-        }
-    
-        public virtual ObjectResult<GetTasksByProjectAndStatus_Result> GetTasksByProjectAndStatus(Nullable<int> projectID, string status)
-        {
-            var projectIDParameter = projectID.HasValue ?
-                new ObjectParameter("ProjectID", projectID) :
-                new ObjectParameter("ProjectID", typeof(int));
-    
-            var statusParameter = status != null ?
-                new ObjectParameter("Status", status) :
-                new ObjectParameter("Status", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTasksByProjectAndStatus_Result>("GetTasksByProjectAndStatus", projectIDParameter, statusParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> GetTotalOvertimeByEmployee(Nullable<int> employeeID, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
-        {
-            var employeeIDParameter = employeeID.HasValue ?
-                new ObjectParameter("EmployeeID", employeeID) :
-                new ObjectParameter("EmployeeID", typeof(int));
-    
-            var startDateParameter = startDate.HasValue ?
-                new ObjectParameter("StartDate", startDate) :
-                new ObjectParameter("StartDate", typeof(System.DateTime));
-    
-            var endDateParameter = endDate.HasValue ?
-                new ObjectParameter("EndDate", endDate) :
-                new ObjectParameter("EndDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("GetTotalOvertimeByEmployee", employeeIDParameter, startDateParameter, endDateParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> GetTotalTimeOffTakenByEmployee(Nullable<int> employeeID, Nullable<int> year)
-        {
-            var employeeIDParameter = employeeID.HasValue ?
-                new ObjectParameter("EmployeeID", employeeID) :
-                new ObjectParameter("EmployeeID", typeof(int));
-    
-            var yearParameter = year.HasValue ?
-                new ObjectParameter("Year", year) :
-                new ObjectParameter("Year", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetTotalTimeOffTakenByEmployee", employeeIDParameter, yearParameter);
-        }
-    
-        public virtual ObjectResult<GetUpcomingYear_Result> GetUpcomingYear(Nullable<int> targetMonth, Nullable<int> targetDay)
-        {
-            var targetMonthParameter = targetMonth.HasValue ?
-                new ObjectParameter("TargetMonth", targetMonth) :
-                new ObjectParameter("TargetMonth", typeof(int));
-    
-            var targetDayParameter = targetDay.HasValue ?
-                new ObjectParameter("TargetDay", targetDay) :
-                new ObjectParameter("TargetDay", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUpcomingYear_Result>("GetUpcomingYear", targetMonthParameter, targetDayParameter);
-        }
     }
 }

@@ -100,7 +100,7 @@
                 <TextBlock x:Name="txtEmployeeName" Text="" FontWeight="Bold" Margin="5" FontSize="18"/>
                 <TextBlock Text="На работе: " Margin="15,5,0,5" FontSize="18"/>
                 <TextBlock x:Name="txtClockedInStatus" Text="Нет" FontWeight="Bold" Margin="5" FontSize="18"/>
-                <TextBlock Text="Время работы: " Margin="15,5,0,5" FontSize="18"/>
+                
                 <TextBlock x:Name="txtTimeElapsed" Text="00:00:00" FontWeight="Bold" Margin="5" FontSize="18"/>
             </StackPanel>
             <Button Content="Выход" 
