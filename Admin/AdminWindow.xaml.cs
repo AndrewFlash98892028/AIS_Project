@@ -953,7 +953,11 @@ namespace AIS.Admin
 
             //  workTimer.Start();
             inactivityTimer.Start();
-        }
+        }/// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void btnRefreshDashboard_Click(object sender, RoutedEventArgs e)
         {

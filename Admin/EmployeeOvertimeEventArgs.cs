@@ -10,7 +10,7 @@ namespace AIS.Employee
         public EmployeeOvertimeEventArgs(int employeeId, TimeSpan overtime)
         {
             EmployeeId = employeeId;
-            Overtime = overtime;
+            Overtime = overtime;//переработка
         }
     }
 }
