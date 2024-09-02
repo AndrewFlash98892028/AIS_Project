@@ -30,6 +30,7 @@ namespace AIS.Admin // Пространство имен для админист
                     DialogResult = true; 
                     this.Close(); 
                 }
+                
             }
         }
 
@@ -40,7 +41,7 @@ namespace AIS.Admin // Пространство имен для админист
                 MessageBox.Show("Введите название отдела"); 
                 return false; 
             }
-            return true; 
+            return true; //
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e) 
